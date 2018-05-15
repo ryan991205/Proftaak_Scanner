@@ -11,7 +11,7 @@ ConnectionManager::ConnectionManager(uint64_t sleepMillis, uint64_t printerSleep
     // multithread loop function
 }
 
-void ConnectionManager::Loop()
+void ConnectionManager::Loop() //per loop nieuwe fork. Connections refreshen
 {
     bool loopContinue = true;
     while(loopContinue)
