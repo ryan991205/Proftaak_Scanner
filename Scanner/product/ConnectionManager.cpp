@@ -19,7 +19,9 @@ void ConnectionManager::Loop()
         broadcaster.Broadcast();
         usleep(sleepMillis);
         HandleMessages();
+        RemoveDeadConnections();
     }
+    
 }
 
 void ConnectionManager::HandleMessages()
@@ -28,7 +30,7 @@ void ConnectionManager::HandleMessages()
 }
 // post: reads messagebuffer and execute proper code
 
-void ConnectionManager::AddPrinter(Printer printer)
+void ConnectionManager::AddPrinter(Printer printer) //check of printer bestaat, zo niet dan voeg hem toe.
 {
     Printer* foundPrinter = FindPrinter(printer.GetIp());
 
@@ -38,7 +40,7 @@ void ConnectionManager::AddPrinter(Printer printer)
     }
 }
 
-Printer* ConnectionManager::FindPrinter(std::string ip)
+Printer* ConnectionManager::FindPrinter(std::string ip) //het zoeken van een printer met een bepaald ip adres.
 {
     for(uint32_t i = 0; i < printers.size(); i++)
     {
@@ -51,7 +53,7 @@ Printer* ConnectionManager::FindPrinter(std::string ip)
     return NULL;
 }
 
-void ConnectionManager::RemoveDeadConnections()
+void ConnectionManager::RemoveDeadConnections() //Loopen door alle printers, als printer bool false is, verwijder printer uit lijst.
 {
     for(uint32_t i = 0; i < printers.size(); i++)
     {

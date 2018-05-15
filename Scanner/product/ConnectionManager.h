@@ -13,8 +13,7 @@ class ConnectionManager
 {
     public:
         ConnectionManager(uint64_t sleepMillis, uint64_t printerSleepMillis);
-
-        std::vector<Printer> GetPrinters() { return printers; };
+        r> GetPrinters() { return printers; };
 
         Printer* FindPrinter(std::string ip);
 
