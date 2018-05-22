@@ -20,10 +20,13 @@ class Printer
         const std::string GetName() { return name; };
         uint16_t GetNrOfJobs() { return nrOfJobs; };
         bool GetAlive() { return alive; };
+        int GetSockDesc() {return socket_sec;};
+        void SetSockSec(int desc) {socket_desc = desc;};
 
         //void SendJob(Maze maze);
 
     private:
+        int socket_desc;
         std::vector<std::string> messageBuffer;
         std::string ip;
         std::string name;
