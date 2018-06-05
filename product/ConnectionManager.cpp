@@ -12,6 +12,7 @@ void ConnectionManager::AcceptConnection()
         //accept connection from an incoming client
         client_sock = accept(socket_desc, (struct sockaddr *)&client, (socklen_t *)&c);
         processID = fork();
+
         if (client_sock < 0 && processID < 0)
         {
             return -1;
@@ -19,7 +20,9 @@ void ConnectionManager::AcceptConnection()
 
         if (processID == 0)
         {
-
+            // nieuwe client gevonden! maak hem aan
+            Printer printer = new Printer(inet_ntoa (client.sin_addr, "Printer", printerSleepMillis);
+            printers.push_back(printer);
             // processID == 0: child process
             HandleMessages();
             exit(0); /* Child process terminates */

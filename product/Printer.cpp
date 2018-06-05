@@ -18,7 +18,7 @@ Printer::~Printer()
 {
     // stop Loop
 }
-
+// kan weg
 void Printer::Loop()
 {
     alive = true;
@@ -32,16 +32,16 @@ void Printer::Loop()
 
 //void Printer::SendJob(Maze maze)
 //{
-//
+//  
 //}
 // post: sends maze over TCP connection
-
+// kan weg 
 void Printer::RequestNrOfJobs()
 {
 
 }
 // post: send request to printer, used as heartbeat
-
+// kan weg
 bool Printer::HandleMessages()
 {
 
