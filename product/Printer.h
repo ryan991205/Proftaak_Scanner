@@ -21,7 +21,7 @@ class Printer
         const std::string GetName() { return name; };
         uint16_t GetNrOfJobs() { return nrOfJobs; };
         bool GetAlive() { return alive; };
-        int GetSockDesc() {return socket_sec;};
+        int GetSockDesc() {return socket_desc;};
         void SetSockSec(int desc) {socket_desc = desc;};
 
         //void SendJob(Maze maze);

@@ -3,8 +3,6 @@
 
 #include "Camera.h"
 #include "ImageImporter.h"
-#include "ImageExporter.h"
-#include "ImageConverter.h"
 #include "ConnectionManager.h"
 
 #define CONNECTION_MANAGER_SLEEP_TIME_IN_MILLIS 500
@@ -21,11 +19,7 @@ int main(int argc, char** argv)
     ConnectionManager* connectionManager = new ConnectionManager(CONNECTION_MANAGER_SLEEP_TIME_IN_MILLIS, PRINTER_SLEEP_TIME_IN_MILLIS);
     //ConnectionManager& connectionManager;
     Camera* cam = NULL;
-    ImageImporter* importer = new ImageImporter();
-    //ImageImporter importer;
-    ImageExporter* exporter = new ImageExporter();
-    //ImageExporter exporter;
-    ImageConverter* converter = new ImageConverter();
+
     //ImageConverter converter;
 
     bool bContinue = true;
@@ -40,9 +34,7 @@ int main(int argc, char** argv)
     }
 
     delete connectionManager;
-    delete importer;
-    delete exporter;
-    delete converter;
+
 
     return 0;
 }

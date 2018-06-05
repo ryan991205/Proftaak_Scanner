@@ -1,11 +1,15 @@
 PRODUCT=scanner
 
-CFLAGS=-Wall -Wextra -pedantic -ggdb -O0 -Iproduct -Iproduct/interfaces #-Werror
+CFLAGS=-Wall -Wextra -pedantic -g -ggdb -O0 #-Werror
 
-SOURCES=$(wildcard product/*.cpp)
+#OPENCV = `pkg-config opencv --cflags --libs`
+
+SOURCES=$(wildcard product/*.cpp)\
+		$(wildcard product/*/*.cpp)
+
 HEADERS=$(wildcard product/*.h) \
-	$(wildcard product/structs/*.h) \
-        $(wildcard product/interfaces/*.h)
+		$(wildcard product/*/*.h) 
+
 
 TEST=test_$(PRODUCT)
 TEST_SOURCES=$(filter-out product/main.cpp, $(SOURCES)) \
@@ -21,7 +25,7 @@ CC=g++
 all: $(PRODUCT)
 
 $(PRODUCT): $(SOURCES) $(HEADERS) Makefile
-	@$(CC) $(CFLAGS) $(SOURCES) -o $@
+	@$(CC) $(CFLAGS) -o $@ $(SOURCES) $(OPENCV)
 
 $(TEST): $(TEST_SOURCES) $(TEST_HEADERS) Makefile
 	@$(CC) $(CFLAGS) -Itest $(TEST_SOURCES) -o $@ $(TEST_LIBS)

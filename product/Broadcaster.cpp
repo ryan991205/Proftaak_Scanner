@@ -2,7 +2,7 @@
 #include <unistd.h>
 #include <errno.h>
 
-void Broadcaster::SetIp(char *IP)
+void Broadcaster::SetIP(char *IP)
 {
 	remote_addr = IP;
 }

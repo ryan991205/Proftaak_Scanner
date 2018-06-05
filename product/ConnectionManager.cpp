@@ -1,5 +1,10 @@
 #include "ConnectionManager.h"
 
+#include "Printer.h"
+
+
+#include <iostream>
+#include <string.h>
 #include <unistd.h>
 
 void ConnectionManager::AcceptConnection()
@@ -13,7 +18,7 @@ void ConnectionManager::AcceptConnection()
 
         if (client_sock < 0 && processID < 0)
         {
-            return -1;
+            return ;
         }
 
         if (processID == 0)
@@ -32,7 +37,10 @@ void ConnectionManager::AcceptConnection()
 
             sleep(2);
         }
-    
+    }
+    close(client_sock);
+    close(socket_desc);
+    return;
 }
 
 int ConnectionManager::CreateSocket()
