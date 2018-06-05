@@ -1,16 +1,21 @@
-#ifndef IMAGEIMPORTER_H
-#define IMAGEIMPORTER_H
 
-//#include <> // OpenCV
+#ifndef IMAGEIMPORTER_H_
+#define IMAGEIMPORTER_H_
+
 #include <string>
+#include <opencv2/core/core.hpp>
 
 
 class ImageImporter
 {
-    public:
-        ImageImporter();
+  private:
 
-        //cv::Mat Import(std::string path)
+  public:
+
+  ImageImporter();
+  ~ImageImporter();
+
+  cv::Mat getImage(const std::string& fileName);
 };
 
 #endif
