@@ -9,12 +9,14 @@
 #include "structs/Vect.h"
 #include "structs/Point.h"
 
+#include <arpa/inet.h>
+
 #define MAX_SIZE 100
 
 class Printer
 {
     public:
-        Printer(std::string ip, std::string name, uint64_t sleepMillis);
+        Printer(std::string ip, std::string name, uint64_t sleepMillis, int socket_desc);
         ~Printer();
 
         const std::string GetIp() { return ip; };

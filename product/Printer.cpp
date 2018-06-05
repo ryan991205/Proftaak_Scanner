@@ -1,6 +1,8 @@
 #include "Printer.h"
 
+
 #include <unistd.h>
+#include <string.h>
 
 
 Printer::Printer(std::string ip, std::string name, uint64_t sleepMillis, int socket_desc)
@@ -40,12 +42,7 @@ void Printer::Loop()
 
 void Printer::RequestNrOfJobs()
 {
-    send (socket_desc, messsage, MAX_SIZE, 0);
 
-    if (recv (socket_desc, receiveBuf, MAX_SIZE, 0) < 0)
-    {
-        alive = false;
-    }
 }
 // post: send request to printer, used as heartbeat
 
