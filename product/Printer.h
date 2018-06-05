@@ -9,6 +9,7 @@
 #include "structs/Vect.h"
 #include "structs/Point.h"
 
+#define MAX_SIZE 100
 
 class Printer
 {
@@ -33,6 +34,8 @@ class Printer
         uint16_t nrOfJobs;
         bool alive;
         uint64_t sleepMillis;
+        char message[MAX_SIZE];
+        char receiveBuf[MAX_SIZE];
 
         void Loop();
         void RequestNrOfJobs();

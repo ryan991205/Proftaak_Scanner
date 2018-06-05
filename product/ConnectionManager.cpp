@@ -4,8 +4,6 @@
 
 void ConnectionManager::AcceptConnection()
 {
-    while (to_quit == false)
-    {
         //comment voor saus
         c = sizeof(struct solckaddr_in);
 
@@ -21,10 +19,10 @@ void ConnectionManager::AcceptConnection()
         if (processID == 0)
         {
             // nieuwe client gevonden! maak hem aan
-            Printer printer = new Printer(inet_ntoa (client.sin_addr, "Printer", printerSleepMillis);
+            Printer printer = new Printer(inet_ntoa (client.sin_addr), "Printer", printerSleepMillis);
             printers.push_back(printer);
             // processID == 0: child process
-            HandleMessages();
+            printer.Loop();
             exit(0); /* Child process terminates */
         }
         else
@@ -34,10 +32,7 @@ void ConnectionManager::AcceptConnection()
 
             sleep(2);
         }
-    }
-    close(client_sock);
-    close(socket_desc);
-    return 1;
+    
 }
 
 int ConnectionManager::CreateSocket()
@@ -51,7 +46,7 @@ int ConnectionManager::CreateSocket()
     struct timeval tv =
         {
             .tv_sec = timeOut,
-            .tv_usec = 0,
+            .tv_usec = 10,
         };
 
     if (0 > setsockopt(socket_desc, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv)))
@@ -63,7 +58,7 @@ int ConnectionManager::CreateSocket()
     //struct inaddr is ip, htons is port.
     server.sin_family = AF_INET;
     server.sin_addr.s_addr = INADDR_ANY;
-    server.sin_port = htons(8888);
+    server.sin_port = htons(20);
 
     return 1;
 }
@@ -101,6 +96,9 @@ void ConnectionManager::Loop() //per loop nieuwe fork. Connections refreshen
 
         RemoveDeadConnections();
     }
+
+    close(socket_desc);
+    close(client_sock);
 }
 
 void ConnectionManager::HandleMessages()

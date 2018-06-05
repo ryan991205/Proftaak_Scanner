@@ -3,15 +3,17 @@
 #include <unistd.h>
 
 
-Printer::Printer(std::string ip, std::string name, uint64_t sleepMillis)
+Printer::Printer(std::string ip, std::string name, uint64_t sleepMillis, int socket_desc)
 {
     this->ip = ip;
     this->name = name;
     nrOfJobs = 0;
     alive = true;
     this->sleepMillis = sleepMillis;
+    this->socket_desc = socket_desc;
 
     // Start Loop on seperate thread
+    strncpy(message, "nrOfJobs", MAX_SIZE);
 }
 
 Printer::~Printer()
@@ -35,16 +37,21 @@ void Printer::Loop()
 //  
 //}
 // post: sends maze over TCP connection
-// kan weg 
+
 void Printer::RequestNrOfJobs()
 {
+    send (socket_desc, messsage, MAX_SIZE, 0);
 
+    if (recv (socket_desc, receiveBuf, MAX_SIZE, 0) < 0)
+    {
+        alive = false;
+    }
 }
 // post: send request to printer, used as heartbeat
-// kan weg
+
 bool Printer::HandleMessages()
 {
-
+    nrOfJobs = receiveBuf[0];
     return false;
 }
 // post: reads messagebuffer and execute proper code, returns false if there are no messages or no proper messages
