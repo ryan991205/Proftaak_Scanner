@@ -2,7 +2,7 @@ PRODUCT=scanner
 
 CFLAGS=-Wall -Werror -Wextra -pedantic -g -ggdb -O0
 
-OPENCV = `pkg-config opencv --cflags --libs`
+#OPENCV = `pkg-config opencv --cflags --libs`
 
 SOURCES=$(wildcard product/*.cpp)\
 		$(wildcard product/*/*.cpp)
