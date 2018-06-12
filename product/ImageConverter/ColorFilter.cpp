@@ -1,6 +1,7 @@
 
 #include "ColorFilter.h"
 #include <opencv2/imgproc.hpp>
+#include <stdexcept>
 
 //debug
 #include <opencv2/highgui.hpp> 

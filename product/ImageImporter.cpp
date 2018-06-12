@@ -1,6 +1,5 @@
 
 #include "ImageImporter.h"
-
 #include <stdexcept>
 #include <opencv2/highgui.hpp> 
 

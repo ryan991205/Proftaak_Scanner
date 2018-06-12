@@ -14,7 +14,7 @@ Camera* GetNewCam()
     return NULL;
 }
 
-int main(int argc, char** argv)
+int main()
 {
     ConnectionManager* connectionManager = new ConnectionManager(CONNECTION_MANAGER_SLEEP_TIME_IN_MILLIS, PRINTER_SLEEP_TIME_IN_MILLIS);
     //ConnectionManager& connectionManager;

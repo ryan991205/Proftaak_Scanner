@@ -1,6 +1,6 @@
 #include "ImageCropper.h"
 #include "ReferencePointFinder.h"
-
+#include <stdexcept>
 #include <iostream>
 #include <stdio.h>
 
