@@ -3,6 +3,7 @@
 
 //debug
 #include <opencv2/highgui.hpp>
+#include <stdexcept>
 
 #define MORPH_OPERATOR_BLACKHAT     0x06
 #define MORPH_ELEMENT_RECT          0x00
