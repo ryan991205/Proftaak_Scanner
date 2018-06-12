@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 #include <stdint.h>
-
+#include <arpa/inet.h>
 #include "structs/Maze.h"
 #include "structs/Vect.h"
 #include "structs/Point.h"
@@ -14,22 +14,23 @@
 class Printer
 {
     public:
-        Printer(std::string ip, std::string name, uint64_t sleepMillis);
+        Printer(std::string ip, std::string name, uint64_t sleepMillis, int socketDescriptor);
         ~Printer();
 
-        const std::string GetIp() { return ip; };
+        const std::string GetIp() { return IP; };
         const std::string GetName() { return name; };
         uint16_t GetNrOfJobs() { return nrOfJobs; };
         bool GetAlive() { return alive; };
-        int GetSockDesc() {return socket_desc;};
-        void SetSockSec(int desc) {socket_desc = desc;};
+        int GetSockDesc() {return socketDescriptor;};
+        void SetSockSec(int desc) {socketDescriptor = desc;};
 
-        //void SendJob(Maze maze);
+        //void SendJob(Maze maze);    
+        void Loop();
 
     private:
-        int socket_desc;
+        int socketDescriptor;
         std::vector<std::string> messageBuffer;
-        std::string ip;
+        std::string IP;
         std::string name;
         uint16_t nrOfJobs;
         bool alive;
@@ -37,7 +38,6 @@ class Printer
         char message[MAX_SIZE];
         char receiveBuf[MAX_SIZE];
 
-        void Loop();
         void RequestNrOfJobs();
         bool HandleMessages();
 };

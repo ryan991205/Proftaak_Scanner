@@ -1,16 +1,16 @@
 #include "Printer.h"
 
 #include <unistd.h>
+#include <string.h>
 
-
-Printer::Printer(std::string ip, std::string name, uint64_t sleepMillis, int socket_desc)
+Printer::Printer(std::string IP, std::string name, uint64_t sleepMillis, int socketDescriptor)
 {
-    this->ip = ip;
+    this->IP = IP;
     this->name = name;
     nrOfJobs = 0;
     alive = true;
     this->sleepMillis = sleepMillis;
-    this->socket_desc = socket_desc;
+    this->socketDescriptor = socketDescriptor;
 
     // Start Loop on seperate thread
     strncpy(message, "nrOfJobs", MAX_SIZE);
@@ -40,9 +40,9 @@ void Printer::Loop()
 
 void Printer::RequestNrOfJobs()
 {
-    send (socket_desc, messsage, MAX_SIZE, 0);
+    send (socketDescriptor, message, MAX_SIZE, 0);
 
-    if (recv (socket_desc, receiveBuf, MAX_SIZE, 0) < 0)
+    if (recv (socketDescriptor, receiveBuf, MAX_SIZE, 0) < 0)
     {
         alive = false;
     }

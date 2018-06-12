@@ -1,6 +1,6 @@
 PRODUCT=scanner
 
-CFLAGS=-Wall -Wextra -pedantic -g -ggdb -O0 #-Werror
+CFLAGS=-Wall -Werror -Wextra -pedantic -g -ggdb -O0
 
 #OPENCV = `pkg-config opencv --cflags --libs`
 

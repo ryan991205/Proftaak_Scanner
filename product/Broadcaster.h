@@ -7,25 +7,26 @@
 
 class Broadcaster
 {
-  public:
-    Broadcaster();
-    void SetIP(char *IP);
-  
-
-  private:
-  int SetUp();
-  int Bind();
+public:
+  Broadcaster();
+  ~Broadcaster();
+  void SetIP(char *IP);
   int Broadcast();
 
 
-    int sockDescriptor;
-    bool loopContinue;
-    char Message[buffersize];
+private:
+  int SetUp();
+  int Bind();
 
-    struct sockaddr_in printerAddress;
-    struct sockaddr_in hostAddress;
-    struct hostent *host;
-    int broadcast; 
+
+  int socketDescriptor;
+  char Message[buffersize];
+
+  struct sockaddr_in printerAddress;
+  struct sockaddr_in hostAddress;
+  struct hostent *host;
+  int broadcast;
+  char* IP;
 };
 
 #endif

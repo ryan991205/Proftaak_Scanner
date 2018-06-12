@@ -18,15 +18,14 @@ class ConnectionManager
     Printer *FindPrinter(std::string ip);
 
   private:
-    int socket_desc;
-    int c;
+    int socketDescriptor;
+    int clientSocket;
     int read_size;
     struct sockaddr_in server;
     struct sockaddr_in client;
     char client_message[2000];
 
     pid_t processID; /* Process ID from fork() */
-    bool to_quit;
     int timeOut;
 
     std::vector<Printer> printers;

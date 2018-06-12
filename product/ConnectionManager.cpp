@@ -1,65 +1,61 @@
 #include "ConnectionManager.h"
-
 #include "Printer.h"
-
-
+#include <stdlib.h>
 #include <iostream>
 #include <string.h>
 #include <unistd.h>
+#include <stdio.h>
+
+#define structSize sizeof(struct sockaddr_in)
 
 void ConnectionManager::AcceptConnection()
 {
-        //comment voor saus
-        c = sizeof(struct solckaddr_in);
+    //accept connection from an incoming client
+    clientSocket = accept(socketDescriptor, (struct sockaddr *)&client, (socklen_t *)structSize);
+    processID = fork();
 
-        //accept connection from an incoming client
-        client_sock = accept(socket_desc, (struct sockaddr *)&client, (socklen_t *)&c);
-        processID = fork();
-
-        if (client_sock < 0 && processID < 0)
-        {
-            return ;
-        }
-
-        if (processID == 0)
-        {
-            // nieuwe client gevonden! maak hem aan
-            Printer printer = new Printer(inet_ntoa (client.sin_addr), "Printer", printerSleepMillis);
-            printers.push_back(printer);
-            // processID == 0: child process
-            printer.Loop();
-            exit(0); /* Child process terminates */
-        }
-        else
-        {
-            // processID > 0: main process
-            std::cout << "main waiting..." << getpid() << std::endl;
-
-            sleep(2);
-        }
+    if (clientSocket < 0 && processID < 0)
+    {
+        return;
     }
-    close(client_sock);
-    close(socket_desc);
+
+    if (processID == 0)
+    {
+        // nieuwe client gevonden! maak hem aan
+        Printer printer(inet_ntoa (client.sin_addr), "Printer", printerSleepMillis, socketDescriptor);
+        printers.push_back(printer);
+        // processID == 0: child process
+        printer.Loop();
+        exit(0); /* Child process terminates */
+    }
+    else
+    {
+        // processID > 0: main process
+        std::cout << "main waiting..." << getpid() << std::endl;
+        sleep(2);
+    }
+    close(clientSocket);
+    close(socketDescriptor);
     return;
+
 }
 
 int ConnectionManager::CreateSocket()
 {
-    socket_desc = socket(AF_INET, SOCK_STREAM, 0); // list met meerdere sockets voor meerdere connecties?
-    if (socket_desc == -1)
+    if ((socketDescriptor = socket(AF_INET, SOCK_STREAM, 0)) == -1)
     {
         return -1;
     }
 
-    struct timeval tv =
-        {
-            .tv_sec = timeOut,
-            .tv_usec = 10,
-        };
+    struct timeval tv;
+    tv.tv_sec = timeOut;
+    tv.tv_usec = 10;
 
-    if (0 > setsockopt(socket_desc, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv)))
+
+
+    if (0 > setsockopt(socketDescriptor, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv)))
     {
-        std::cout << "setsockopt failed" << std::endl;
+        perror("SetSockOpt Failed: ");
         return -1;
     }
 
@@ -73,16 +69,16 @@ int ConnectionManager::CreateSocket()
 
 int ConnectionManager::Bind()
 {
-    if (bind(socket_desc, (struct sockaddr *)&server, sizeof(server)) < 0)
+    if (bind(socketDescriptor, (struct sockaddr *)&server, sizeof(server)) < 0)
     {
         return -1;
     }
     return 1;
 }
 
-int ConnectionManager::Listen()
+void ConnectionManager::Listen()
 {
-    listen(socket_desc, 3);
+    listen(socketDescriptor, 3);
 }
 
 ConnectionManager::ConnectionManager(uint64_t sleepMillis, uint64_t printerSleepMillis)
@@ -105,28 +101,27 @@ void ConnectionManager::Loop() //per loop nieuwe fork. Connections refreshen
         RemoveDeadConnections();
     }
 
-    close(socket_desc);
-    close(client_sock);
+    close(socketDescriptor);
+    close(clientSocket);
 }
 
 void ConnectionManager::HandleMessages()
 {
-    while ((read_size = recv(client_sock, client_message, 2000, 0)) > 0)
+    while ((read_size = recv(clientSocket, client_message, 2000, 0)) > 0)
     {
-        std::cout << read_size << std::endl;
         client_message[read_size] = '\0';
-        write(client_sock, client_message, strlen(client_message));
+        write(clientSocket, client_message, strlen(client_message));
         std::cout << client_message << std::endl;
     }
 
     if (read_size == 0)
     {
-        std::cout << "Client disconnected" << std::endl;
+        std::cout << "Client disconnected" << std::endl; //moet weg
     }
 
     else if (read_size == -1)
     {
-        std::cout << "recv failed" << std::endl;
+        std::cout << "recv failed" << std::endl; // moet weg
     }
 }
 // post: reads messagebuffer and execute proper code
